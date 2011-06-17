@@ -77,10 +77,10 @@
   grid = new Grid({
     x_start: 100,
     x_step: 170,
-    y_start: 50,
+    y_start: 30,
     y_step: 110
   });
-  canvas_xlimits = [200, 800];
+  canvas_xlimits = [0, 400];
   y = grid.options["y_start"];
   for (_i = 0, _len = web_app.length; _i < _len; _i++) {
     line = web_app[_i];

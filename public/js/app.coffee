@@ -16,8 +16,8 @@ rhclusters = [["postgres-01", "postgres-02"]]
 heartbeats = [["lb-intra-01", "lb-intra-02"], ["lb-j2ee-01", "lb-j2ee-02"]]
 
 servers = []
-grid = new Grid {x_start: 100, x_step: 170, y_start: 50, y_step:110}
-canvas_xlimits = [200, 800]
+grid = new Grid {x_start: 100, x_step: 170, y_start: 30, y_step:110}
+canvas_xlimits = [0, 400]
 
 y = grid.options["y_start"]
 for line in web_app
