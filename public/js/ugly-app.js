@@ -4,7 +4,7 @@ var bias = 5; //bias to calculate best handler for min dist
 var exagerate = 1; //exagerate box coords so that arrows are not under boxes
 
 // DRAG BOXES
-$(function() {
+function prepareDraggableBoxes() {
   $(".draggable").draggable({
     //handle: '.handler',
     handle: '.draggable h5',
@@ -23,11 +23,9 @@ $(function() {
       $(this).css("margin", "");
     }
   );
- 
-});
+}
 
 //Draw hearbeats
-var heartbeats = [["lb-intra-01", "lb-intra-02"], ["lb-j2ee-01", "lb-j2ee-02"]];
 function drawHeartbeats(el1, el2) {
   var coords1 = getCornersCoords("#srv_"+el1);
   var coords2 = getCornersCoords("#srv_"+el2);
@@ -41,12 +39,8 @@ function drawHeartbeats(el1, el2) {
   $(hb).insertBefore("canvas");
   $(hb).css("position", "absolute").css("color","#f33").css("font-size","11px").css("left", pos[0]-4).css("top", pos[1]-6);
 } 
-$(function() {
-  $.each(heartbeats, function() { drawHeartbeats(this[0], this[1])});
-});
  
 //Draw redhat clusters
-var rhclusters = [["postgres-01", "postgres-02"]];
 function drawRhclusters(el1, el2) {
   var coords1 = getCornersCoords("#srv_"+el1);
   var coords2 = getCornersCoords("#srv_"+el2);
@@ -60,9 +54,6 @@ function drawRhclusters(el1, el2) {
   $(rhc).insertBefore("canvas");
   $(rhc).css("position", "absolute").css("font-weight","bold").css("color","#c90000").css("padding","0px 2px").css("left", pos[0]-6).css("top", pos[1]-6);
 } 
-$(function() {
-  $.each(rhclusters, function() { drawRhclusters(this[0], this[1])});
-});
 
 //Adapted from:
 //http://stackoverflow.com/questions/1104295/jquery-use-canvas-to-draw-lines-between-divs
@@ -160,9 +151,6 @@ function minDistanceCoords(coordsAry1, coordsAry2) {
 function minDistanceHandlers(blkEl1,blkEl2) {
   return minDistanceCoords(getHandlersCoords(blkEl1),getHandlersCoords(blkEl2))
 }
- 
-$(document).ready(function(){updateCanvas($("#canvas"), $(".draggable"));});
-
 //draws arrows
 //see: http://deepliquid.com/blog/archives/98
 function drawFilledPolygon(ctx,shape,color) {
