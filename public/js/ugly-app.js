@@ -98,8 +98,6 @@ function barycenter(coords1,coords2) {
 }
 function getHandlersCoords(blkEl) {
   var c = getCornersCoords(blkEl);
-  console.log(blkEl)
-  console.log(c)
   var b = new Array();
   //FIRST OPTION: all handlers
   //$.each(c, function(idx,val){
