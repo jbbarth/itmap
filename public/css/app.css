@@ -1,0 +1,21 @@
+body,html { font-family:Verdana, "Calibri"; font-size:12px; height:1000px; }
+canvas { position:absolute; width:1000px; height:800px; }
+.draggable { background-color:#fff; width:150px; position:absolute; z-index:10; }
+.draggable div { padding:2px; }
+.draggable h5 { padding:1px 5px; margin:1px; cursor:move; }
+.draghl { border:1px solid #FF4444 !important; }
+.server h5 { text-transformz:uppercase; text-align:center; padding:2px; color:#fff; }
+.server div { font-size:10px; text-align:center; padding:2px; }
+.server .port { font-weight:normal; }
+.server-lb { border:1px solid #669; }
+.server-lb h5 { background-color:#669; }
+.server-lb div { display:none; }
+.server-rp { border:1px solid #38ACDA; } 
+.server-rp h5 { background-color:#38ACDA; }
+.server-j2ee { border:1px solid #51037f; }
+.server-j2ee h5 { background-color:#51037f; }
+.server-postgres { border:1px solid #c00; }
+.server-postgres h5 { background-color:#c00; }
+.server-passive { border:1px solid #bbb; color:#666; }
+.server-passive h5 { font-style:italic; background-color:#ccc; color:#666; }
+.hearbeat { position:absolute; z-index:20; color:red; }
