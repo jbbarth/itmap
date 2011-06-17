@@ -22,57 +22,6 @@
   <body>
     <div id="wrap">
 
-      <div class="draggable server server-lb ui-draggable" id="srv_lb-intra-01" rel="srv_apache-01,srv_apache-02" style="left: 315px; top: 50px; " unselectable="on">
-        <h5 unselectable="on">lb-intra-01<span class="port">:80</span></h5>
-      </div>
-        
-      <div class="draggable server server-lb server-passive ui-draggable" id="srv_lb-intra-02" rel="" style="left: 485px; top: 50px; " unselectable="on">
-        <h5 unselectable="on">lb-intra-02<span class="port">:80</span></h5>
-      </div>
-        
-      <div class="draggable server server-rp ui-draggable" id="srv_apache-01" rel="srv_lb-j2ee-01" style="left: 230px; top: 110px; " unselectable="on">
-        <h5 unselectable="on">apache-01<span class="port">:80</span></h5>
-        <div unselectable="on">Apache 2.2.3</div>
-      </div>
-        
-      <div class="draggable server server-rp ui-draggable" id="srv_apache-02" rel="srv_lb-j2ee-01" style="left: 400px; top: 110px; " unselectable="on">
-        <h5 unselectable="on">apache-02<span class="port">:80</span></h5>
-        <div unselectable="on">Apache 2.2.3</div>
-      </div>
-        
-      <div class="draggable server server-lb ui-draggable" id="srv_lb-j2ee-01" rel="srv_tomcat-01,srv_tomcat-02,srv_tomcat-03" style="left: 315px; top: 220px; " unselectable="on">
-        <h5 unselectable="on">lb-j2ee-01<span class="port">:80</span></h5>
-      </div>
-        
-      <div class="draggable server server-lb server-passive ui-draggable" id="srv_lb-j2ee-02" rel="" style="left: 485px; top: 220px; " unselectable="on">
-        <h5 unselectable="on">lb-j2ee-02<span class="port">:80</span></h5>
-      </div>
-        
-      <div class="draggable server server-j2ee ui-draggable" id="srv_tomcat-01" rel="srv_postgres-01" style="left: 145px; top: 280px; " unselectable="on">
-        <h5 unselectable="on">tomcat-01<span class="port">:80</span></h5>
-        <div unselectable="on">Tomcat 6.0.18 - JDK 1.6.0<br>256m → 1024m</div>
-      </div>
-        
-      <div class="draggable server server-j2ee ui-draggable" id="srv_tomcat-02" rel="srv_postgres-01" style="left: 315px; top: 280px; " unselectable="on">
-        <h5 unselectable="on">tomcat-02<span class="port">:80</span></h5>
-        <div unselectable="on">Tomcat 6.0.18 - JDK 1.6.0<br>256m → 1024m</div>
-      </div>
-        
-      <div class="draggable server server-j2ee ui-draggable" id="srv_tomcat-03" rel="srv_postgres-01" style="left: 485px; top: 280px; " unselectable="on">
-        <h5 unselectable="on">tomcat-03<span class="port">:80</span></h5>
-        <div unselectable="on">Tomcat 6.0.18 - JDK 1.6.0<br>128m → 512m</div>
-      </div>
-        
-      <div class="draggable server server-postgres ui-draggable" id="srv_postgres-01" rel="" style="left: 315px; top: 390px; " unselectable="on">
-        <h5 unselectable="on">postgres-01<span class="port">:5432</span></h5>
-        <div unselectable="on">Postgresql 9.0<br>user-01@app-01(5G)</div>
-      </div>
-        
-      <div class="draggable server server-postgres server-passive ui-draggable" id="srv_postgres-02" rel="" style="left: 485px; top: 390px; " unselectable="on">
-        <h5 unselectable="on">postgres-02<span class="port">:5432</span></h5>
-        <div unselectable="on">Postgresql 9.0<br>user-01@app-01(5G)</div>
-      </div>
-      
       <canvas id="canvas" width="1000" height="800" style="border:1px solid grey;"></canvas>
 
     </div>

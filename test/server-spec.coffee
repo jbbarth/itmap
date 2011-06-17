@@ -13,3 +13,6 @@ describe "Server", ->
   it "works even if no attributes' hash is given", ->
     @router = new Server 'router-01'
     (expect @router.attributes).toEqual {}
+
+  it "exports to HTML", ->
+    (expect @server.toHtml()).toBeDefined
