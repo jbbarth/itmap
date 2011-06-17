@@ -3,7 +3,6 @@ canvas { position:absolute; width:1000px; height:800px; }
 .draggable { background-color:#fff; width:150px; position:absolute; z-index:10; }
 .draggable div { padding:2px; }
 .draggable h5 { padding:1px 5px; margin:1px; cursor:move; }
-.draghl { border:1px solid #FF4444 !important; }
 .server h5 { text-transformz:uppercase; text-align:center; padding:2px; color:#fff; }
 .server div { font-size:10px; text-align:center; padding:2px; }
 .server .port { font-weight:normal; }
@@ -19,3 +18,5 @@ canvas { position:absolute; width:1000px; height:800px; }
 .server-passive { border:1px solid #bbb; color:#666; }
 .server-passive h5 { font-style:italic; background-color:#ccc; color:#666; }
 .hearbeat { position:absolute; z-index:20; color:red; }
+.hover { border:2px solid #FF9944; margin:-1px; }
+.selected { border:2px solid #FF4444; margin:-1px; }

@@ -14,15 +14,12 @@ function prepareDraggableBoxes() {
   $(".draggable").draggable({collide: 'block'});
   $("div, h5").disableSelection();
   $(".draggable").hover(
-    function (){
-      $(this).css("border","2px solid #FF4444");
-      $(this).css("margin", "-1px");
-    }, 
-    function (){
-      $(this).css("border","");
-      $(this).css("margin", "");
-    }
+    function (){ $(this).addClass("hover"); },
+    function (){ $(this).removeClass("hover"); }
   );
+  $(".draggable").click(
+    function (){ $(this).toggleClass("selected"); }
+  )
 }
 
 //Draw hearbeats
