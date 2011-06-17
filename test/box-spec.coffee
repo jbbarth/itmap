@@ -7,7 +7,7 @@ describe "Box", ->
     (expect @box.coords).toBeDefined
 
   it "gives us a barycenter (TODO: move it to a class function)", ->
-    (expect @box.barycenter([0, 20], [50, 100])).toEqual [25, 60]
+    (expect @box.barycenter([0, 20], [51, 100])).toEqual [25.5, 60]
   
   it "gives us the center of a box", ->
     (expect @box.center()).toEqual [25, 50]

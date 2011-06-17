@@ -7,7 +7,7 @@
       return (expect(this.box.coords)).toBeDefined;
     });
     it("gives us a barycenter (TODO: move it to a class function)", function() {
-      return (expect(this.box.barycenter([0, 20], [50, 100]))).toEqual([25, 60]);
+      return (expect(this.box.barycenter([0, 20], [51, 100]))).toEqual([25.5, 60]);
     });
     return it("gives us the center of a box", function() {
       return (expect(this.box.center())).toEqual([25, 50]);
