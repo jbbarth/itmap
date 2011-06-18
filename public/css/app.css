@@ -1,9 +1,9 @@
 body,html { font-family:Verdana, "Calibri"; font-size:12px; height:1000px; }
 #canvas { position:absolute; width:550px; height:450px; border:1px solid #bbb; }
 #map { position:absolute; left:570px; width:550px; height:450px; border:1px solid #bbb; }
-.draggable { background-color:#fff; width:150px; position:absolute; z-index:10; }
+.draggable { background-color:#fff; width:150px; position:absolute; z-index:10; cursor:move; }
 .draggable div { padding:2px; }
-.draggable h5 { padding:1px 5px; margin:1px; cursor:move; }
+.draggable h5 { padding:1px 5px; margin:1px; }
 .server { border-width:1px; border-style:solid; }
 .server h5 { text-transformz:uppercase; text-align:center; padding:2px; color:#fff; }
 .server div { font-size:10px; text-align:center; padding:2px; }
