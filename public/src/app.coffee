@@ -44,5 +44,13 @@ jQuery ->
 # NEW CODE WITH RAPHAELJS
 $ ->
   paper = Raphael("map", 550, 450)
+  box = {width: 150, height: 40}
   $.each servers, ->
     server  = $("#srv_"+@name)
+    height = if @css_class.match(/server-lb/) then box.height/2 else box.height
+    paper.rect(@pos_x, @pos_y, box.width, height)
+    label = paper.text(@pos_x + box.width/2, @pos_y + box.height/4-1, @name)
+    label.attr({"font-size":12})
+    if @desc
+      desc = paper.text(@pos_x + box.width/2, @pos_y + box.height/4+15, @desc.replace("<br>","\n"))
+
