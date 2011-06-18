@@ -85,8 +85,6 @@ $ ->
     shape.attr({fill: color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move"})
     shape.drag(move, dragger, up)
   connections = []
-  window.servers = servers
-  window.ri = rect_index
   for server in servers
     for target in server.targets()
       if rect_index[target]

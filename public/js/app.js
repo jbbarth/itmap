@@ -196,8 +196,6 @@
       shape.drag(move, dragger, up);
     }
     connections = [];
-    window.servers = servers;
-    window.ri = rect_index;
     _results = [];
     for (_l = 0, _len4 = servers.length; _l < _len4; _l++) {
       server = servers[_l];
