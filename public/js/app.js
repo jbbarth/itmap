@@ -115,4 +115,11 @@
       return drawHeartbeats(this[0], this[1]);
     });
   });
+  $(function() {
+    var paper;
+    paper = Raphael("map", 550, 450);
+    return $.each(servers, function() {
+      return server = $("#srv_" + this.name);
+    });
+  });
 }).call(this);

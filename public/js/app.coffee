@@ -33,9 +33,16 @@ for line in web_app
   y += grid.options.y_step
   y -= 50 if line[0].css_class.match(/server-lb/)
 
+# OLD CODE WITH MANUAL CANVAS
 jQuery ->
   $.each(servers, () -> $(@toHtml()).insertBefore($("#canvas")))
   prepareDraggableBoxes()
   updateCanvas($("#canvas"), $(".draggable"))
   $.each(rhclusters, () -> drawRhclusters(@[0], @[1]))
   $.each(heartbeats, () -> drawHeartbeats(@[0], @[1]))
+
+# NEW CODE WITH RAPHAELJS
+$ ->
+  paper = Raphael("map", 550, 450)
+  $.each servers, ->
+    server  = $("#srv_"+@name)
