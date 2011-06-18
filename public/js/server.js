@@ -15,7 +15,7 @@
     Server.prototype.toHtml = function() {
       var html, rel;
       html = '<div class="draggable server ' + this.css_class + '" id="srv_' + this.name + '" ';
-      if (this.targets()) {
+      if (this.targets() && this.targets().length > 0) {
         rel = this.targets().map(function(x) {
           return "srv_" + x;
         }).join(",");
@@ -34,6 +34,8 @@
         return this.link_to.split(",").map(function(x) {
           return x.trim();
         });
+      } else {
+        return [];
       }
     };
     return Server;

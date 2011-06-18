@@ -20,7 +20,7 @@ describe "Server", ->
     (expect @server.toHtml().indexOf("rel=")).toBeGreaterThan 0
 
   it "returns an array with dependent server ids", ->
-    (expect @server.targets()).toBeDefined
+    (expect @server.targets()).toEqual []
     @server.link_to = "blah,bleh"
     (expect @server.targets()).toEqual ["blah", "bleh"]
 

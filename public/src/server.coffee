@@ -8,7 +8,7 @@ window.Server = class Server
 
   toHtml: ->
     html =  '<div class="draggable server '+@css_class+'" id="srv_'+@name+'" '
-    if @targets() 
+    if @targets() && @targets().length > 0
       rel = @targets().map((x)->"srv_"+x).join(",")
       html += 'rel="'+rel+'" '
     html += 'style="left:'+@pos_x+'px; top:'+@pos_y+'px">'
@@ -21,3 +21,5 @@ window.Server = class Server
   targets: ->
     if @link_to && @link_to.length > 1
       @link_to.split(",").map((x)->x.trim())
+    else
+      []

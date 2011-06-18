@@ -22,7 +22,7 @@
       return (expect(this.server.toHtml().indexOf("rel="))).toBeGreaterThan(0);
     });
     return it("returns an array with dependent server ids", function() {
-      (expect(this.server.targets())).toBeDefined;
+      (expect(this.server.targets())).toEqual([]);
       this.server.link_to = "blah,bleh";
       return (expect(this.server.targets())).toEqual(["blah", "bleh"]);
     });
