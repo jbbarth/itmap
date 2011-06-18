@@ -1,5 +1,5 @@
 (function() {
-  var active, canvas_xlimits, distrib, grid, heartbeats, line, rhclusters, server, serverJson, servers, web_app, x, y, _i, _j, _len, _len2;
+  var active, canvasOffset, canvas_xlimits, distrib, grid, heartbeats, line, rhclusters, server, serverJson, servers, web_app, x, y, _i, _j, _len, _len2;
   web_app = [
     [
       {
@@ -81,6 +81,7 @@
     y_step: 110
   });
   canvas_xlimits = [0, 400];
+  canvasOffset = 8;
   y = grid.options.y_start;
   for (_i = 0, _len = web_app.length; _i < _len; _i++) {
     line = web_app[_i];
@@ -120,23 +121,24 @@
     paper = Raphael("map", 550, 450);
     boxsize = {
       width: 150,
-      height: 40
+      minheight: 20,
+      maxheight: 46
     };
     shapes = [];
     rect_index = {};
     $.each(servers, function() {
       var desc, height, label, rect;
       server = $("#srv_" + this.name);
-      height = this.css_class.match(/server-lb/) ? boxsize.height / 2 : boxsize.height;
-      rect = paper.rect(this.pos_x, this.pos_y, boxsize.width, height);
-      label = paper.text(this.pos_x + boxsize.width / 2, this.pos_y + boxsize.height / 4 - 1, this.name);
+      height = this.css_class.match(/server-lb/) ? boxsize.minheight : boxsize.maxheight;
+      rect = paper.rect(this.pos_x - canvasOffset, this.pos_y - canvasOffset, boxsize.width, height);
+      label = paper.text(this.pos_x - canvasOffset + boxsize.width / 2, this.pos_y - canvasOffset + boxsize.minheight / 2 - 1, this.name);
       label.attr({
         "font-size": 12
       });
       rect.pairs = [];
       rect.pairs.push(label);
       if (this.desc) {
-        desc = paper.text(this.pos_x + boxsize.width / 2, this.pos_y + boxsize.height / 4 + 15, this.desc.replace("<br>", "\n"));
+        desc = paper.text(this.pos_x - canvasOffset + boxsize.width / 2, this.pos_y - canvasOffset + boxsize.maxheight / 4 + 18, this.desc.replace("<br>", "\n"));
         rect.pairs.push(desc);
       }
       shapes.push(rect);

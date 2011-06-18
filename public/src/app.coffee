@@ -18,6 +18,7 @@ heartbeats = [["lb-intra-01", "lb-intra-02"], ["lb-j2ee-01", "lb-j2ee-02"]]
 servers = []
 grid = new Grid {x_start: 100, x_step: 170, y_start: 30, y_step:110}
 canvas_xlimits = [0, 400]
+canvasOffset = 8
 
 y = grid.options.y_start
 for line in web_app
@@ -44,19 +45,19 @@ jQuery ->
 # NEW CODE WITH RAPHAELJS
 $ ->
   paper = Raphael("map", 550, 450)
-  boxsize = {width: 150, height: 40}
+  boxsize = {width: 150, minheight: 20, maxheight: 46}
   shapes = []
   rect_index = {}
   $.each servers, ->
     server  = $("#srv_"+@name)
-    height = if @css_class.match(/server-lb/) then boxsize.height/2 else boxsize.height
-    rect = paper.rect(@pos_x, @pos_y, boxsize.width, height)
-    label = paper.text(@pos_x + boxsize.width/2, @pos_y + boxsize.height/4-1, @name)
+    height = if @css_class.match(/server-lb/) then boxsize.minheight else boxsize.maxheight
+    rect = paper.rect(@pos_x - canvasOffset, @pos_y - canvasOffset, boxsize.width, height)
+    label = paper.text(@pos_x - canvasOffset + boxsize.width/2, @pos_y - canvasOffset + boxsize.minheight/2-1, @name)
     label.attr({"font-size":12})
     rect.pairs = []
     rect.pairs.push label
     if @desc
-      desc = paper.text(@pos_x + boxsize.width/2, @pos_y + boxsize.height/4+15, @desc.replace("<br>","\n"))
+      desc = paper.text(@pos_x - canvasOffset + boxsize.width/2, @pos_y - canvasOffset + boxsize.maxheight/4+18, @desc.replace("<br>","\n"))
       rect.pairs.push desc
     shapes.push(rect)
     rect_index[@name] = rect
