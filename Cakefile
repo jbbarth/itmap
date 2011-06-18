@@ -36,6 +36,7 @@ task 'watch', 'Watch prod source files and build changes', ->
         fs.watchFile "#{prodSrcCoffeeDir}/#{file}.coffee", (curr, prev) ->
             if +curr.mtime isnt +prev.mtime
                 util.log "Saw change in #{prodSrcCoffeeDir}/#{file}.coffee"
+                coffee "--output #{prodTargetJsDir}", "#{prodSrcCoffeeDir}/#{file}.coffee"
                 invoke 'build'
 
 task 'build', 'Build a single JavaScript file from prod files', ->
