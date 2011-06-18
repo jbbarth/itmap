@@ -19,19 +19,19 @@ servers = []
 grid = new Grid {x_start: 100, x_step: 170, y_start: 30, y_step:110}
 canvas_xlimits = [0, 400]
 
-y = grid.options["y_start"]
+y = grid.options.y_start
 for line in web_app
-  active = $.grep(line, (x)-> ! x["css_class"].match(/passive/))
-  distrib = grid.distribute_horizontally(active.length, grid.options["x_step"], canvas_xlimits[0], canvas_xlimits[1])
+  active = $.grep(line, (x)-> ! x.css_class.match(/passive/))
+  distrib = grid.distribute_horizontally(active.length, grid.options.x_step, canvas_xlimits[0], canvas_xlimits[1])
   x = distrib[0]
   for serverJson in line
-    server = new Server(serverJson["name"], serverJson)
-    server.attributes["pos_x"] = x
-    server.attributes["pos_y"] = y
-    x += grid.options["x_step"]
+    server = new Server(serverJson.name, serverJson)
+    server.attributes.pos_x = x
+    server.attributes.pos_y = y
+    x += grid.options.x_step
     servers.push(server)
-  y += grid.options["y_step"]
-  y -= 50 if line[0]["css_class"].match(/server-lb/)
+  y += grid.options.y_step
+  y -= 50 if line[0].css_class.match(/server-lb/)
 
 jQuery ->
   $.each(servers, () -> $(@toHtml()).insertBefore($("#canvas")))

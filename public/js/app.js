@@ -81,24 +81,24 @@
     y_step: 110
   });
   canvas_xlimits = [0, 400];
-  y = grid.options["y_start"];
+  y = grid.options.y_start;
   for (_i = 0, _len = web_app.length; _i < _len; _i++) {
     line = web_app[_i];
     active = $.grep(line, function(x) {
-      return !x["css_class"].match(/passive/);
+      return !x.css_class.match(/passive/);
     });
-    distrib = grid.distribute_horizontally(active.length, grid.options["x_step"], canvas_xlimits[0], canvas_xlimits[1]);
+    distrib = grid.distribute_horizontally(active.length, grid.options.x_step, canvas_xlimits[0], canvas_xlimits[1]);
     x = distrib[0];
     for (_j = 0, _len2 = line.length; _j < _len2; _j++) {
       serverJson = line[_j];
-      server = new Server(serverJson["name"], serverJson);
-      server.attributes["pos_x"] = x;
-      server.attributes["pos_y"] = y;
-      x += grid.options["x_step"];
+      server = new Server(serverJson.name, serverJson);
+      server.attributes.pos_x = x;
+      server.attributes.pos_y = y;
+      x += grid.options.x_step;
       servers.push(server);
     }
-    y += grid.options["y_step"];
-    if (line[0]["css_class"].match(/server-lb/)) {
+    y += grid.options.y_step;
+    if (line[0].css_class.match(/server-lb/)) {
       y -= 50;
     }
   }
