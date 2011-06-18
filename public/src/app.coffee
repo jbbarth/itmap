@@ -44,13 +44,45 @@ jQuery ->
 # NEW CODE WITH RAPHAELJS
 $ ->
   paper = Raphael("map", 550, 450)
-  box = {width: 150, height: 40}
+  boxsize = {width: 150, height: 40}
+  shapes = []
   $.each servers, ->
     server  = $("#srv_"+@name)
-    height = if @css_class.match(/server-lb/) then box.height/2 else box.height
-    paper.rect(@pos_x, @pos_y, box.width, height)
-    label = paper.text(@pos_x + box.width/2, @pos_y + box.height/4-1, @name)
+    height = if @css_class.match(/server-lb/) then boxsize.height/2 else boxsize.height
+    rect = paper.rect(@pos_x, @pos_y, boxsize.width, height)
+    label = paper.text(@pos_x + boxsize.width/2, @pos_y + boxsize.height/4-1, @name)
     label.attr({"font-size":12})
+    rect.pairs = []
+    rect.pairs.push label
     if @desc
-      desc = paper.text(@pos_x + box.width/2, @pos_y + box.height/4+15, @desc.replace("<br>","\n"))
+      desc = paper.text(@pos_x + boxsize.width/2, @pos_y + boxsize.height/4+15, @desc.replace("<br>","\n"))
+      rect.pairs.push desc
+    paper.set(rect, label)
+    shapes.push(rect)
 
+  # make server draggable
+  dragger = ->
+    @ox = @attr("x")
+    @oy = @attr("y")
+    for pair in @pairs
+      pair.ox = pair.attr("x")
+      pair.oy = pair.attr("y")
+    @animate({"fill-opacity": 0.2}, 500)
+  move = (dx, dy) ->
+    @attr({x: @ox + dx, y: @oy + dy})
+    #move paired element if any
+    for pair in @pairs
+      pair.attr({x: pair.ox + dx, y: pair.oy + dy})
+    #for i in [connections.length..0]
+    #  paper.connection(connections[i])
+    #paper.safari()
+  up = ->
+    @animate({"fill-opacity": 0}, 500)
+  for shape in shapes
+    color = Raphael.getColor()
+    shape.attr({fill: color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move"})
+    shape.drag(move, dragger, up)
+  #connections = []
+  #connections.push(r.connection(shapes[0], shapes[1], "#fff"))
+  #connections.push(r.connection(shapes[1], shapes[2], "#fff", "#fff|5"))
+  #connections.push(r.connection(shapes[1], shapes[3], "#000", "#fff"))

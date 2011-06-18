@@ -191,23 +191,79 @@ jQuery(function() {
   });
 });
 $(function() {
-  var box, paper;
+  var boxsize, color, dragger, move, paper, shape, shapes, up, _k, _len3, _results;
   paper = Raphael("map", 550, 450);
-  box = {
+  boxsize = {
     width: 150,
     height: 40
   };
-  return $.each(servers, function() {
-    var desc, height, label;
+  shapes = [];
+  $.each(servers, function() {
+    var desc, height, label, rect;
     server = $("#srv_" + this.name);
-    height = this.css_class.match(/server-lb/) ? box.height / 2 : box.height;
-    paper.rect(this.pos_x, this.pos_y, box.width, height);
-    label = paper.text(this.pos_x + box.width / 2, this.pos_y + box.height / 4 - 1, this.name);
+    height = this.css_class.match(/server-lb/) ? boxsize.height / 2 : boxsize.height;
+    rect = paper.rect(this.pos_x, this.pos_y, boxsize.width, height);
+    label = paper.text(this.pos_x + boxsize.width / 2, this.pos_y + boxsize.height / 4 - 1, this.name);
     label.attr({
       "font-size": 12
     });
+    rect.pairs = [];
+    rect.pairs.push(label);
     if (this.desc) {
-      return desc = paper.text(this.pos_x + box.width / 2, this.pos_y + box.height / 4 + 15, this.desc.replace("<br>", "\n"));
+      desc = paper.text(this.pos_x + boxsize.width / 2, this.pos_y + boxsize.height / 4 + 15, this.desc.replace("<br>", "\n"));
+      rect.pairs.push(desc);
     }
+    paper.set(rect, label);
+    return shapes.push(rect);
   });
+  dragger = function() {
+    var pair, _k, _len3, _ref;
+    this.ox = this.attr("x");
+    this.oy = this.attr("y");
+    _ref = this.pairs;
+    for (_k = 0, _len3 = _ref.length; _k < _len3; _k++) {
+      pair = _ref[_k];
+      pair.ox = pair.attr("x");
+      pair.oy = pair.attr("y");
+    }
+    return this.animate({
+      "fill-opacity": 0.2
+    }, 500);
+  };
+  move = function(dx, dy) {
+    var pair, _k, _len3, _ref, _results;
+    this.attr({
+      x: this.ox + dx,
+      y: this.oy + dy
+    });
+    _ref = this.pairs;
+    _results = [];
+    for (_k = 0, _len3 = _ref.length; _k < _len3; _k++) {
+      pair = _ref[_k];
+      _results.push(pair.attr({
+        x: pair.ox + dx,
+        y: pair.oy + dy
+      }));
+    }
+    return _results;
+  };
+  up = function() {
+    return this.animate({
+      "fill-opacity": 0
+    }, 500);
+  };
+  _results = [];
+  for (_k = 0, _len3 = shapes.length; _k < _len3; _k++) {
+    shape = shapes[_k];
+    color = Raphael.getColor();
+    shape.attr({
+      fill: color,
+      stroke: color,
+      "fill-opacity": 0,
+      "stroke-width": 2,
+      cursor: "move"
+    });
+    _results.push(shape.drag(move, dragger, up));
+  }
+  return _results;
 });
