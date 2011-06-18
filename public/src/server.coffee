@@ -8,8 +8,8 @@ window.Server = class Server
 
   toHtml: ->
     html =  '<div class="draggable server '+@css_class+'" id="srv_'+@name+'" '
-    if @targets && @targets.length > 1
-      rel = @targets.map((x)->"srv_"+x).join(",")
+    if @targets() 
+      rel = @targets().map((x)->"srv_"+x).join(",")
       html += 'rel="'+rel+'" '
     html += 'style="left:'+@pos_x+'px; top:'+@pos_y+'px">'
     html += '<h5>'+@name+'<span class="port">:'+@port+'</span></h5>'

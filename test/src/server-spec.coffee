@@ -15,8 +15,12 @@ describe "Server", ->
 
   it "exports to HTML", ->
     (expect @server.toHtml()).toBeDefined
+    (expect @server.toHtml().indexOf("rel=")).toEqual -1
+    @server.link_to = "blah"
+    (expect @server.toHtml().indexOf("rel=")).toBeGreaterThan 0
 
   it "returns an array with dependent server ids", ->
     (expect @server.targets()).toBeDefined
     @server.link_to = "blah,bleh"
     (expect @server.targets()).toEqual ["blah", "bleh"]
+

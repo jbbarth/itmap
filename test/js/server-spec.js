@@ -16,7 +16,10 @@
       return this.router = new Server('router-01');
     });
     it("exports to HTML", function() {
-      return (expect(this.server.toHtml())).toBeDefined;
+      (expect(this.server.toHtml())).toBeDefined;
+      (expect(this.server.toHtml().indexOf("rel="))).toEqual(-1);
+      this.server.link_to = "blah";
+      return (expect(this.server.toHtml().indexOf("rel="))).toBeGreaterThan(0);
     });
     return it("returns an array with dependent server ids", function() {
       (expect(this.server.targets())).toBeDefined;

@@ -15,8 +15,8 @@
     Server.prototype.toHtml = function() {
       var html, rel;
       html = '<div class="draggable server ' + this.css_class + '" id="srv_' + this.name + '" ';
-      if (this.targets && this.targets.length > 1) {
-        rel = this.targets.map(function(x) {
+      if (this.targets()) {
+        rel = this.targets().map(function(x) {
           return "srv_" + x;
         }).join(",");
         html += 'rel="' + rel + '" ';
