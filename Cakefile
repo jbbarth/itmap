@@ -10,7 +10,7 @@ testSrcCoffeeDir   = 'test/src'
 prodTargetJsDir    = 'public/js'
 testTargetJsDir    = 'test/js'
 
-prodTargetFileName   = 'classes'
+prodTargetFileName   = 'all'
 prodTargetCoffeeFile = "#{prodSrcCoffeeDir}/#{prodTargetFileName}.coffee"
 prodTargetJsFile     = "#{prodTargetJsDir}/#{prodTargetFileName}.js"
 prodTargetJsMinFile  = "#{prodTargetJsDir}/#{prodTargetFileName}.min.js"
@@ -18,7 +18,7 @@ prodTargetJsMinFile  = "#{prodTargetJsDir}/#{prodTargetFileName}.min.js"
 prodCoffeeOpts = "--bare --output #{prodTargetJsDir} --compile #{prodTargetCoffeeFile}"
 testCoffeeOpts = "--output #{testTargetJsDir}"
 
-prodCoffeeFiles = [ 'grid', 'box', 'server' ]
+prodCoffeeFiles = [ 'grid', 'box', 'server', 'app' ]
 
 task 'watch:all', 'Watch production and test CoffeeScript', ->
     invoke 'watch:test'
