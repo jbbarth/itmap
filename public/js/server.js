@@ -15,9 +15,9 @@
     Server.prototype.toHtml = function() {
       var html, rel;
       html = '<div class="draggable server ' + this.css_class + '" id="srv_' + this.name + '" ';
-      if (this.link_to && this.link_to.length > 1) {
-        rel = this.link_to.split(",").map(function(x) {
-          return "srv_" + $.trim(x);
+      if (this.targets && this.targets.length > 1) {
+        rel = this.targets.map(function(x) {
+          return "srv_" + x;
         }).join(",");
         html += 'rel="' + rel + '" ';
       }
@@ -28,6 +28,13 @@
       }
       html += '</div>';
       return html;
+    };
+    Server.prototype.targets = function() {
+      if (this.link_to && this.link_to.length > 1) {
+        return this.link_to.split(",").map(function(x) {
+          return x.trim();
+        });
+      }
     };
     return Server;
   })();

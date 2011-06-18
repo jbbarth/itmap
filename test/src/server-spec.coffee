@@ -15,3 +15,8 @@ describe "Server", ->
 
   it "exports to HTML", ->
     (expect @server.toHtml()).toBeDefined
+
+  it "returns an array with dependent server ids", ->
+    (expect @server.targets()).toBeDefined
+    @server.link_to = "blah,bleh"
+    (expect @server.targets()).toEqual ["blah", "bleh"]
