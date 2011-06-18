@@ -10,7 +10,7 @@ window.Server = class Server
     #  @attributes[key] = value
     
   toHtml: ->
-    html =  '<div class="draggable '+@attributes['css_class']+'" id="srv_'+@attributes['name']+'" '
+    html =  '<div class="draggable server '+@attributes['css_class']+'" id="srv_'+@attributes['name']+'" '
     if @attributes['link_to'] && @attributes['link_to'].length > 1
       rel = @attributes['link_to'].split(",").map((x)->"srv_"+$.trim(x)).join(",")
       html += 'rel="'+rel+'" '

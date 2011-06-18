@@ -10,7 +10,7 @@
     }
     Server.prototype.toHtml = function() {
       var html, rel;
-      html = '<div class="draggable ' + this.attributes['css_class'] + '" id="srv_' + this.attributes['name'] + '" ';
+      html = '<div class="draggable server ' + this.attributes['css_class'] + '" id="srv_' + this.attributes['name'] + '" ';
       if (this.attributes['link_to'] && this.attributes['link_to'].length > 1) {
         rel = this.attributes['link_to'].split(",").map(function(x) {
           return "srv_" + $.trim(x);

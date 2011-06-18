@@ -5,56 +5,56 @@
       {
         name: "lb-intra-01",
         port: 80,
-        css_class: "server server-lb",
+        css_class: "server-lb",
         link_to: "apache-01, apache-02"
       }, {
         name: "lb-intra-02",
         port: 80,
-        css_class: "server server-lb server-passive"
+        css_class: "server-lb server-passive"
       }
     ], [
       {
         name: "apache-01",
         port: 80,
         desc: "Apache 2.2.3",
-        css_class: "server server-rp",
+        css_class: "server-rp",
         link_to: "lb-j2ee-01"
       }, {
         name: "apache-02",
         port: 80,
         desc: "Apache 2.2.3",
-        css_class: "server server-rp",
+        css_class: "server-rp",
         link_to: "lb-j2ee-01"
       }
     ], [
       {
         name: "lb-j2ee-01",
         port: 80,
-        css_class: "server server-lb",
+        css_class: "server-lb",
         link_to: "tomcat-01, tomcat-02, tomcat-03"
       }, {
         name: "lb-j2ee-02",
         port: 80,
-        css_class: "server server-lb server-passive"
+        css_class: "server-lb server-passive"
       }
     ], [
       {
         name: "tomcat-01",
         port: 80,
         desc: "Tomcat 6.0.18 - JDK 1.6.0<br>256m &rarr; 1024m",
-        css_class: "server server-j2ee",
+        css_class: "server-j2ee",
         link_to: "postgres-01"
       }, {
         name: "tomcat-02",
         port: 80,
         desc: "Tomcat 6.0.18 - JDK 1.6.0<br>256m &rarr; 1024m",
-        css_class: "server server-j2ee",
+        css_class: "server-j2ee",
         link_to: "postgres-01"
       }, {
         name: "tomcat-03",
         port: 80,
         desc: "Tomcat 6.0.18 - JDK 1.6.0<br>128m &rarr; 512m",
-        css_class: "server server-j2ee",
+        css_class: "server-j2ee",
         link_to: "postgres-01"
       }
     ], [
@@ -62,12 +62,12 @@
         name: "postgres-01",
         port: 5432,
         desc: "Postgresql 9.0<br>user-01@app-01(5G)",
-        css_class: "server server-postgres"
+        css_class: "server-postgres"
       }, {
         name: "postgres-02",
         port: 5432,
         desc: "Postgresql 9.0<br>user-01@app-01(5G)",
-        css_class: "server server-postgres server-passive"
+        css_class: "server-postgres server-passive"
       }
     ]
   ];
