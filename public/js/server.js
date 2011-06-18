@@ -2,25 +2,29 @@
   var Server;
   window.Server = Server = (function() {
     function Server(serverName, serverAttributes) {
+      var key, value;
       if (serverAttributes == null) {
         serverAttributes = {};
       }
       this.name = serverName;
-      this.attributes = serverAttributes;
+      for (key in serverAttributes) {
+        value = serverAttributes[key];
+        this[key] = value;
+      }
     }
     Server.prototype.toHtml = function() {
       var html, rel;
-      html = '<div class="draggable server ' + this.attributes.css_class + '" id="srv_' + this.attributes.name + '" ';
-      if (this.attributes.link_to && this.attributes.link_to.length > 1) {
-        rel = this.attributes.link_to.split(",").map(function(x) {
+      html = '<div class="draggable server ' + this.css_class + '" id="srv_' + this.name + '" ';
+      if (this.link_to && this.link_to.length > 1) {
+        rel = this.link_to.split(",").map(function(x) {
           return "srv_" + $.trim(x);
         }).join(",");
         html += 'rel="' + rel + '" ';
       }
-      html += 'style="left:' + this.attributes.pos_x + 'px; top:' + this.attributes.pos_y + 'px">';
-      html += '<h5>' + this.attributes.name + '<span class="port">:' + this.attributes.port + '</span></h5>';
-      if (this.attributes.desc) {
-        html += '<div>' + this.attributes.desc + '</div>';
+      html += 'style="left:' + this.pos_x + 'px; top:' + this.pos_y + 'px">';
+      html += '<h5>' + this.name + '<span class="port">:' + this.port + '</span></h5>';
+      if (this.desc) {
+        html += '<div>' + this.desc + '</div>';
       }
       html += '</div>';
       return html;

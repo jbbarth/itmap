@@ -9,12 +9,11 @@
       return (expect(this.server.name)).toEqual('server-01');
     });
     it("extracts server's attributes", function() {
-      (expect(this.server.attributes["desc"])).toEqual('Main web server');
-      return (expect(this.server.attributes["nonexistent"])).toBeUndefined;
+      (expect(this.server.desc)).toEqual('Main web server');
+      return (expect(this.server.nonexistent)).toBeUndefined;
     });
     it("works even if no attributes' hash is given", function() {
-      this.router = new Server('router-01');
-      return (expect(this.router.attributes)).toEqual({});
+      return this.router = new Server('router-01');
     });
     return it("exports to HTML", function() {
       return (expect(this.server.toHtml())).toBeDefined;

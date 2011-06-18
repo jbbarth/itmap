@@ -92,8 +92,8 @@
     for (_j = 0, _len2 = line.length; _j < _len2; _j++) {
       serverJson = line[_j];
       server = new Server(serverJson.name, serverJson);
-      server.attributes.pos_x = x;
-      server.attributes.pos_y = y;
+      server.pos_x = x;
+      server.pos_y = y;
       x += grid.options.x_step;
       servers.push(server);
     }

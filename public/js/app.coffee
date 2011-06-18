@@ -26,8 +26,8 @@ for line in web_app
   x = distrib[0]
   for serverJson in line
     server = new Server(serverJson.name, serverJson)
-    server.attributes.pos_x = x
-    server.attributes.pos_y = y
+    server.pos_x = x
+    server.pos_y = y
     x += grid.options.x_step
     servers.push(server)
   y += grid.options.y_step

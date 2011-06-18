@@ -7,12 +7,11 @@ describe "Server", ->
     (expect @server.name).toEqual 'server-01'
 
   it "extracts server's attributes", ->
-    (expect @server.attributes["desc"]).toEqual 'Main web server'
-    (expect @server.attributes["nonexistent"]).toBeUndefined
+    (expect @server.desc).toEqual 'Main web server'
+    (expect @server.nonexistent).toBeUndefined
 
   it "works even if no attributes' hash is given", ->
     @router = new Server 'router-01'
-    (expect @router.attributes).toEqual {}
 
   it "exports to HTML", ->
     (expect @server.toHtml()).toBeDefined
