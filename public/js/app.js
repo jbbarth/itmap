@@ -116,10 +116,100 @@
     });
   });
   $(function() {
-    var paper;
+    var boxsize, color, connections, dragger, move, paper, rect_index, server, shape, shapes, target, up, _k, _l, _len3, _len4, _results;
     paper = Raphael("map", 550, 450);
-    return $.each(servers, function() {
-      return server = $("#srv_" + this.name);
+    boxsize = {
+      width: 150,
+      height: 40
+    };
+    shapes = [];
+    rect_index = {};
+    $.each(servers, function() {
+      var desc, height, label, rect;
+      server = $("#srv_" + this.name);
+      height = this.css_class.match(/server-lb/) ? boxsize.height / 2 : boxsize.height;
+      rect = paper.rect(this.pos_x, this.pos_y, boxsize.width, height);
+      label = paper.text(this.pos_x + boxsize.width / 2, this.pos_y + boxsize.height / 4 - 1, this.name);
+      label.attr({
+        "font-size": 12
+      });
+      rect.pairs = [];
+      rect.pairs.push(label);
+      if (this.desc) {
+        desc = paper.text(this.pos_x + boxsize.width / 2, this.pos_y + boxsize.height / 4 + 15, this.desc.replace("<br>", "\n"));
+        rect.pairs.push(desc);
+      }
+      shapes.push(rect);
+      return rect_index[this.name] = rect;
     });
+    dragger = function() {
+      var pair, _k, _len3, _ref;
+      this.ox = this.attr("x");
+      this.oy = this.attr("y");
+      _ref = this.pairs;
+      for (_k = 0, _len3 = _ref.length; _k < _len3; _k++) {
+        pair = _ref[_k];
+        pair.ox = pair.attr("x");
+        pair.oy = pair.attr("y");
+      }
+      return this.animate({
+        "fill-opacity": 0.2
+      }, 500);
+    };
+    move = function(dx, dy) {
+      var conn, pair, _k, _l, _len3, _len4, _ref;
+      this.attr({
+        x: this.ox + dx,
+        y: this.oy + dy
+      });
+      _ref = this.pairs;
+      for (_k = 0, _len3 = _ref.length; _k < _len3; _k++) {
+        pair = _ref[_k];
+        pair.attr({
+          x: pair.ox + dx,
+          y: pair.oy + dy
+        });
+      }
+      for (_l = 0, _len4 = connections.length; _l < _len4; _l++) {
+        conn = connections[_l];
+        paper.connection(conn);
+      }
+      return paper.safari();
+    };
+    up = function() {
+      return this.animate({
+        "fill-opacity": 0
+      }, 500);
+    };
+    for (_k = 0, _len3 = shapes.length; _k < _len3; _k++) {
+      shape = shapes[_k];
+      color = Raphael.getColor();
+      shape.attr({
+        fill: color,
+        stroke: color,
+        "fill-opacity": 0,
+        "stroke-width": 2,
+        cursor: "move"
+      });
+      shape.drag(move, dragger, up);
+    }
+    connections = [];
+    window.servers = servers;
+    window.ri = rect_index;
+    _results = [];
+    for (_l = 0, _len4 = servers.length; _l < _len4; _l++) {
+      server = servers[_l];
+      _results.push((function() {
+        var _len5, _m, _ref, _results2;
+        _ref = server.targets();
+        _results2 = [];
+        for (_m = 0, _len5 = _ref.length; _m < _len5; _m++) {
+          target = _ref[_m];
+          _results2.push(rect_index[target] ? connections.push(paper.connection(rect_index[server.name], rect_index[target], "#444")) : void 0);
+        }
+        return _results2;
+      })());
+    }
+    return _results;
   });
 }).call(this);

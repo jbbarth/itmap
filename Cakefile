@@ -18,7 +18,7 @@ prodTargetJsMinFile  = "#{prodTargetJsDir}/#{prodTargetFileName}.min.js"
 prodCoffeeOpts = "--bare --output #{prodTargetJsDir} --compile #{prodTargetCoffeeFile}"
 testCoffeeOpts = "--output #{testTargetJsDir}"
 
-prodCoffeeFiles = [ 'grid', 'box', 'server', 'app' ]
+prodCoffeeFiles = [ 'grid', 'box', 'server', 'raphael.extensions', 'app' ]
 
 task 'watch:all', 'Watch production and test CoffeeScript', ->
     invoke 'watch:test'

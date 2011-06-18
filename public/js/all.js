@@ -59,9 +59,9 @@ window.Server = Server = (function() {
   Server.prototype.toHtml = function() {
     var html, rel;
     html = '<div class="draggable server ' + this.css_class + '" id="srv_' + this.name + '" ';
-    if (this.link_to && this.link_to.length > 1) {
-      rel = this.link_to.split(",").map(function(x) {
-        return "srv_" + $.trim(x);
+    if (this.targets() && this.targets().length > 0) {
+      rel = this.targets().map(function(x) {
+        return "srv_" + x;
       }).join(",");
       html += 'rel="' + rel + '" ';
     }
@@ -73,8 +73,98 @@ window.Server = Server = (function() {
     html += '</div>';
     return html;
   };
+  Server.prototype.targets = function() {
+    if (this.link_to && this.link_to.length > 1) {
+      return this.link_to.split(",").map(function(x) {
+        return x.trim();
+      });
+    } else {
+      return [];
+    }
+  };
   return Server;
 })();
+Raphael.fn.connection = function(obj1, obj2, line) {
+  var bb1, bb2, color, d, dis, dx, dy, i, j, p, path, res, x1, x2, x3, x4, y1, y2, y3, y4;
+  if (obj1.line && obj1.from && obj1.to) {
+    line = obj1;
+    obj1 = line.from;
+    obj2 = line.to;
+  }
+  bb1 = obj1.getBBox();
+  bb2 = obj2.getBBox();
+  p = [
+    {
+      x: bb1.x + bb1.width / 2,
+      y: bb1.y - 1
+    }, {
+      x: bb1.x + bb1.width / 2,
+      y: bb1.y + bb1.height + 1
+    }, {
+      x: bb1.x - 1,
+      y: bb1.y + bb1.height / 2
+    }, {
+      x: bb1.x + bb1.width + 1,
+      y: bb1.y + bb1.height / 2
+    }, {
+      x: bb2.x + bb2.width / 2,
+      y: bb2.y - 1
+    }, {
+      x: bb2.x + bb2.width / 2,
+      y: bb2.y + bb2.height + 1
+    }, {
+      x: bb2.x - 1,
+      y: bb2.y + bb2.height / 2
+    }, {
+      x: bb2.x + bb2.width + 1,
+      y: bb2.y + bb2.height / 2
+    }
+  ];
+  p = [p[0], p[1], p[0], p[1], p[4], p[5], p[4], p[5]];
+  d = {};
+  dis = [];
+  for (i = 0; i <= 3; i++) {
+    for (j = 4; j <= 7; j++) {
+      dx = Math.abs(p[i].x - p[j].x);
+      dy = Math.abs(p[i].y - p[j].y);
+      if ((i === j - 4) || ((i !== 3 && j !== 6) || p[i].x < p[j].x) && ((i !== 2 && j !== 7) || p[i].x > p[j].x) && ((i !== 0 && j !== 5) || p[i].y > p[j].y) && ((i !== 1 && j !== 4) || p[i].y < p[j].y)) {
+        dis.push(dx + dy);
+        d[dis[dis.length - 1]] = [i, j];
+      }
+    }
+  }
+  if (dis.length === 0) {
+    res = [0, 4];
+  } else {
+    res = d[Math.min.apply(Math, dis)];
+  }
+  x1 = p[res[0]].x;
+  y1 = p[res[0]].y;
+  x4 = p[res[1]].x;
+  y4 = p[res[1]].y;
+  dx = Math.max(Math.abs(x1 - x4) / 2, 10);
+  dy = Math.max(Math.abs(y1 - y4) / 2, 10);
+  x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3);
+  y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3);
+  x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3);
+  y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
+  path = ["M", x1.toFixed(3), y1.toFixed(3), x4.toFixed(3), y4.toFixed(3)].join(",");
+  if (line && line.line) {
+    return line.line.attr({
+      path: path
+    });
+  } else {
+    color = (typeof line === "string" ? line : "#000");
+    return {
+      line: this.path(path).attr({
+        stroke: color,
+        fill: "none"
+      }),
+      from: obj1,
+      to: obj2
+    };
+  }
+};
 web_app = [
   [
     {
@@ -191,13 +281,14 @@ jQuery(function() {
   });
 });
 $(function() {
-  var boxsize, color, dragger, move, paper, shape, shapes, up, _k, _len3, _results;
+  var boxsize, color, connections, dragger, move, paper, rect_index, server, shape, shapes, target, up, _k, _l, _len3, _len4, _results;
   paper = Raphael("map", 550, 450);
   boxsize = {
     width: 150,
     height: 40
   };
   shapes = [];
+  rect_index = {};
   $.each(servers, function() {
     var desc, height, label, rect;
     server = $("#srv_" + this.name);
@@ -213,8 +304,8 @@ $(function() {
       desc = paper.text(this.pos_x + boxsize.width / 2, this.pos_y + boxsize.height / 4 + 15, this.desc.replace("<br>", "\n"));
       rect.pairs.push(desc);
     }
-    paper.set(rect, label);
-    return shapes.push(rect);
+    shapes.push(rect);
+    return rect_index[this.name] = rect;
   });
   dragger = function() {
     var pair, _k, _len3, _ref;
@@ -231,28 +322,30 @@ $(function() {
     }, 500);
   };
   move = function(dx, dy) {
-    var pair, _k, _len3, _ref, _results;
+    var conn, pair, _k, _l, _len3, _len4, _ref;
     this.attr({
       x: this.ox + dx,
       y: this.oy + dy
     });
     _ref = this.pairs;
-    _results = [];
     for (_k = 0, _len3 = _ref.length; _k < _len3; _k++) {
       pair = _ref[_k];
-      _results.push(pair.attr({
+      pair.attr({
         x: pair.ox + dx,
         y: pair.oy + dy
-      }));
+      });
     }
-    return _results;
+    for (_l = 0, _len4 = connections.length; _l < _len4; _l++) {
+      conn = connections[_l];
+      paper.connection(conn);
+    }
+    return paper.safari();
   };
   up = function() {
     return this.animate({
       "fill-opacity": 0
     }, 500);
   };
-  _results = [];
   for (_k = 0, _len3 = shapes.length; _k < _len3; _k++) {
     shape = shapes[_k];
     color = Raphael.getColor();
@@ -263,7 +356,24 @@ $(function() {
       "stroke-width": 2,
       cursor: "move"
     });
-    _results.push(shape.drag(move, dragger, up));
+    shape.drag(move, dragger, up);
+  }
+  connections = [];
+  window.servers = servers;
+  window.ri = rect_index;
+  _results = [];
+  for (_l = 0, _len4 = servers.length; _l < _len4; _l++) {
+    server = servers[_l];
+    _results.push((function() {
+      var _len5, _m, _ref, _results2;
+      _ref = server.targets();
+      _results2 = [];
+      for (_m = 0, _len5 = _ref.length; _m < _len5; _m++) {
+        target = _ref[_m];
+        _results2.push(rect_index[target] ? connections.push(paper.connection(rect_index[server.name], rect_index[target], "#444")) : void 0);
+      }
+      return _results2;
+    })());
   }
   return _results;
 });
