@@ -9,8 +9,7 @@ This project aims at building maps for each application I host at work so that I
 Installation
 ------------
 
-...todo...
-
+For now, this repo is not a JS lib but more a demo application. You don't have anything special to do, just clone the repo and serve the "public/" directory if you're not planning to use it on your local machine.
 
 Development Environment
 -----------------------
