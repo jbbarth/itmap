@@ -1,6 +1,6 @@
 (function() {
   Raphael.fn.connection = function(obj1, obj2, line) {
-    var bb1, bb2, color, d, dis, dx, dy, i, j, p, path, res, x1, x2, x3, x4, y1, y2, y3, y4;
+    var angle, arrowPath, arrow_length, arrow_size, bb1, bb2, color, d, dis, dx, dy, i, j, p, path, res, x1, x2, x3, x4, y1, y2, y3, y4;
     if (obj1.line && obj1.from && obj1.to) {
       line = obj1;
       obj1 = line.from;
@@ -63,18 +63,32 @@
     y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3);
     x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3);
     y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
-    path = ["M", x1.toFixed(3), y1.toFixed(3), x4.toFixed(3), y4.toFixed(3)].join(",");
+    arrow_length = 9;
+    arrow_size = 4;
+    angle = Math.atan2(x1 - x4, y4 - y1);
+    angle = (angle / (2 * Math.PI)) * 360;
+    arrowPath = ["M", x4, y4, "L", x4 - arrow_length, y4 - arrow_size, "L", x4 - arrow_length, y4 + arrow_size, "L", x4, y4].join(",");
+    path = ["M", x1, y1, x4, y4].join(",");
+    color = (typeof line === "string" ? line : "#000");
     if (line && line.line) {
-      return line.line.attr({
+      line.line.attr({
         path: path
       });
+      line.arrow.remove();
+      return line.arrow = this.path(arrowPath).attr({
+        stroke: color,
+        fill: color
+      }).rotate(90 + angle, x4, y4);
     } else {
-      color = (typeof line === "string" ? line : "#000");
       return {
         line: this.path(path).attr({
           stroke: color,
           fill: "none"
         }),
+        arrow: this.path(arrowPath).attr({
+          stroke: color,
+          fill: color
+        }).rotate(90 + angle, x4, y4),
         from: obj1,
         to: obj2
       };

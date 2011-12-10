@@ -1,5 +1,14 @@
 # Connections between raphaeljs boxes
 # Adapted from http://raphaeljs.com/graffle.html
+# And arrows from http://taitems.tumblr.com/post/549973287/drawing-arrows-in-raphaeljs
+
+#Raphael.fn.arrow = (x1, y1, x2, y2, size) ->
+#  angle = Math.atan2(x1-x2,y2-y1)
+#  angle = (angle / (2 * Math.PI)) * 360
+#  arrowPath = @path("M" + x2 + " " + y2 + " L" + (x2 - size) + " " + (y2 - size) + " L" + (x2 - size) + " " + (y2 + size) + " L" + x2 + " " + y2 ).attr("fill","black").rotate((90+angle),x2,y2)
+#  linePath = @path("M" + x1 + " " + y1 + " L" + x2 + " " + y2)
+#  [linePath,arrowPath]
+
 Raphael.fn.connection = (obj1, obj2, line) ->
   if obj1.line and obj1.from and obj1.to
     line = obj1
@@ -61,15 +70,26 @@ Raphael.fn.connection = (obj1, obj2, line) ->
   x3 = [ 0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx ][res[1]].toFixed(3)
   y3 = [ 0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4 ][res[1]].toFixed(3)
   #curve line
-  #path = [ "M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3) ].join(",")
-  path = [ "M", x1.toFixed(3), y1.toFixed(3), x4.toFixed(3), y4.toFixed(3) ].join(",")
+  #  path = [ "M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3) ].join(",")
+  #straight line
+  #  path = [ "M", x1.toFixed(3), y1.toFixed(3), x4.toFixed(3), y4.toFixed(3) ].join(",")
+  #straight line + arrow
+  arrow_length = 9
+  arrow_size = 4
+  angle = Math.atan2(x1-x4,y4-y1)
+  angle = (angle / (2 * Math.PI)) * 360
+  arrowPath = ["M", x4, y4, "L", x4 - arrow_length, y4 - arrow_size, "L", x4 - arrow_length, y4 + arrow_size, "L", x4, y4].join(",")
+  path = ["M", x1, y1, x4, y4].join(",")
+  color = (if typeof line == "string" then line else "#000")
   if line and line.line
     line.line.attr path: path
+    line.arrow.remove()
+    line.arrow = @path(arrowPath).attr(stroke: color, fill: color).rotate(90+angle,x4,y4)
   else
-    color = (if typeof line == "string" then line else "#000")
     line: @path(path).attr(
       stroke: color
       fill: "none"
     )
+    arrow: @path(arrowPath).attr(stroke: color, fill: color).rotate(90+angle,x4,y4)
     from: obj1
     to: obj2
