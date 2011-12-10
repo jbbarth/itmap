@@ -87,4 +87,4 @@ $ ->
   for server in servers
     for target in server.targets()
       if rect_index[target]
-        connections.push(paper.connection(rect_index[server.name], rect_index[target], "#444"))
+        connections.push(paper.connection(rect_index[server.name], rect_index[target]))

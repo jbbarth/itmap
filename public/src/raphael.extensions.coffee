@@ -80,7 +80,7 @@ Raphael.fn.connection = (obj1, obj2, line) ->
   angle = (angle / (2 * Math.PI)) * 360
   arrowPath = ["M", x4, y4, "L", x4 - arrow_length, y4 - arrow_size, "L", x4 - arrow_length, y4 + arrow_size, "L", x4, y4].join(",")
   path = ["M", x1, y1, x4, y4].join(",")
-  color = (if typeof line == "string" then line else "#000")
+  color = "#444"
   if line and line.line
     line.line.attr path: path
     line.arrow.remove()

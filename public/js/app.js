@@ -176,7 +176,7 @@
         _results2 = [];
         for (_m = 0, _len5 = _ref.length; _m < _len5; _m++) {
           target = _ref[_m];
-          _results2.push(rect_index[target] ? connections.push(paper.connection(rect_index[server.name], rect_index[target], "#444")) : void 0);
+          _results2.push(rect_index[target] ? connections.push(paper.connection(rect_index[server.name], rect_index[target])) : void 0);
         }
         return _results2;
       })());
