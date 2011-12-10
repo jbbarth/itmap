@@ -1,6 +1,5 @@
 body,html { font-family:Verdana, "Calibri"; font-size:12px; height:1000px; }
-#canvas { position:absolute; width:550px; height:450px; border:1px solid #bbb; }
-#map { position:absolute; left:570px; width:550px; height:450px; border:1px solid #bbb; }
+#map { position:absolute; left:70px; width:550px; height:450px; border:1px solid #bbb; }
 .draggable { background-color:#fff; width:150px; position:absolute; z-index:10; cursor:move; }
 .draggable div { padding:2px; }
 .draggable h5 { padding:1px 5px; margin:1px; }

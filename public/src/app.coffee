@@ -34,55 +34,57 @@ for line in web_app
   y += grid.options.y_step
   y -= 50 if line[0].css_class.match(/server-lb/)
 
-# OLD CODE WITH MANUAL CANVAS
-jQuery ->
-  $.each(servers, () -> $(@toHtml()).insertBefore($("#canvas")))
-  prepareDraggableBoxes()
-  updateCanvas($("#canvas"), $(".draggable"))
-  $.each(rhclusters, () -> drawRhclusters(@[0], @[1]))
-  $.each(heartbeats, () -> drawHeartbeats(@[0], @[1]))
-
-# NEW CODE WITH RAPHAELJS
 $ ->
   paper = Raphael("map", 550, 450)
-  boxsize = {width: 150, minheight: 20, maxheight: 46}
+  boxsize = {width: 153, minheight: 20, maxheight: 46}
   shapes = []
   rect_index = {}
   $.each servers, ->
-    server  = $("#srv_"+@name)
-    height = if @css_class.match(/server-lb/) then boxsize.minheight else boxsize.maxheight
-    rect = paper.rect(@pos_x - canvasOffset, @pos_y - canvasOffset, boxsize.width, height)
-    label = paper.text(@pos_x - canvasOffset + boxsize.width/2, @pos_y - canvasOffset + boxsize.minheight/2-1, @name)
-    label.attr({"font-size":12})
-    rect.pairs = []
-    rect.pairs.push label
-    if @desc
-      desc = paper.text(@pos_x - canvasOffset + boxsize.width/2, @pos_y - canvasOffset + boxsize.maxheight/4+18, @desc.replace("<br>","\n"))
-      rect.pairs.push desc
+    $(@toHtml()).insertBefore($("#map"))
+    server = $("#srv_"+@name)[0]
+    height = $(server).outerHeight()+1
+    [x, y, w, h] = [@pos_x - canvasOffset, @pos_y - canvasOffset, boxsize.width + 50, height]
+    fo = document.createElementNS(paper.svgns, "foreignObject")
+    fo.setAttribute("x", x)
+    fo.setAttribute("y", y)
+    fo.setAttribute("width", w)
+    fo.setAttribute("height", h)
+    newdiv = document.createElementNS("http://www.w3.org/1999/xhtml","div")
+    server.setAttribute("style","")
+    newdiv.appendChild(server)
+    fo.appendChild(newdiv)
+    paper.canvas.appendChild fo
+    rect = paper.rect(x, y, w, h)
+    rect.toFront()
+    #move foreign object along with rect
+    rect.foreign = fo
+    #keep rect in the 'shapes' collection
     shapes.push(rect)
+    #update rect_index, where we manage connections
     rect_index[@name] = rect
 
   # make server draggable
   dragger = ->
     @ox = @attr("x")
     @oy = @attr("y")
-    for pair in @pairs
-      pair.ox = pair.attr("x")
-      pair.oy = pair.attr("y")
-    @animate({"fill-opacity": 0.2}, 500)
+    if @foreign
+      @foreign.ox = @foreign.getAttribute("x")
+      @foreign.oy = @foreign.getAttribute("y")
+    #@animate({"fill-opacity": 0.2}, 500)
   move = (dx, dy) ->
     @attr({x: @ox + dx, y: @oy + dy})
     #move paired element if any
-    for pair in @pairs
-      pair.attr({x: pair.ox + dx, y: pair.oy + dy})
+    if @foreign
+      @foreign.setAttribute("x", parseFloat(@foreign.ox) + dx)
+      @foreign.setAttribute("y", parseFloat(@foreign.oy) + dy)
     for conn in connections
       paper.connection(conn)
     paper.safari()
   up = ->
-    @animate({"fill-opacity": 0}, 500)
+    #@animate({"fill-opacity": 0}, 500)
   for shape in shapes
     color = Raphael.getColor()
-    shape.attr({fill: color, stroke: color, "fill-opacity": 0, "stroke-width": 1, cursor: "move"})
+    shape.attr({fill: color, stroke: color, "fill-opacity": 0, "stroke-opacity": 0, "stroke-width": 0, cursor: "move"})
     shape.drag(move, dragger, up)
   connections = []
   for server in servers

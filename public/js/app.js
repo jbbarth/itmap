@@ -81,7 +81,7 @@
     y_step: 110
   });
   canvas_xlimits = [0, 400];
-  canvasOffset = 8;
+  canvasOffset = 7.5;
   y = grid.options.y_start;
   for (_i = 0, _len = web_app.length; _i < _len; _i++) {
     line = web_app[_i];
@@ -103,86 +103,63 @@
       y -= 50;
     }
   }
-  jQuery(function() {
-    $.each(servers, function() {
-      return $(this.toHtml()).insertBefore($("#canvas"));
-    });
-    prepareDraggableBoxes();
-    updateCanvas($("#canvas"), $(".draggable"));
-    $.each(rhclusters, function() {
-      return drawRhclusters(this[0], this[1]);
-    });
-    return $.each(heartbeats, function() {
-      return drawHeartbeats(this[0], this[1]);
-    });
-  });
   $(function() {
     var boxsize, color, connections, dragger, move, paper, rect_index, server, shape, shapes, target, up, _k, _l, _len3, _len4, _results;
     paper = Raphael("map", 550, 450);
     boxsize = {
-      width: 150,
+      width: 153,
       minheight: 20,
       maxheight: 46
     };
     shapes = [];
     rect_index = {};
     $.each(servers, function() {
-      var desc, height, label, rect;
-      server = $("#srv_" + this.name);
-      height = this.css_class.match(/server-lb/) ? boxsize.minheight : boxsize.maxheight;
-      rect = paper.rect(this.pos_x - canvasOffset, this.pos_y - canvasOffset, boxsize.width, height);
-      label = paper.text(this.pos_x - canvasOffset + boxsize.width / 2, this.pos_y - canvasOffset + boxsize.minheight / 2 - 1, this.name);
-      label.attr({
-        "font-size": 12
-      });
-      rect.pairs = [];
-      rect.pairs.push(label);
-      if (this.desc) {
-        desc = paper.text(this.pos_x - canvasOffset + boxsize.width / 2, this.pos_y - canvasOffset + boxsize.maxheight / 4 + 18, this.desc.replace("<br>", "\n"));
-        rect.pairs.push(desc);
-      }
+      var fo, h, height, newdiv, rect, w, _ref;
+      $(this.toHtml()).insertBefore($("#map"));
+      server = $("#srv_" + this.name)[0];
+      height = $(server).outerHeight() + 1;
+      _ref = [this.pos_x - canvasOffset, this.pos_y - canvasOffset, boxsize.width + 50, height], x = _ref[0], y = _ref[1], w = _ref[2], h = _ref[3];
+      fo = document.createElementNS(paper.svgns, "foreignObject");
+      fo.setAttribute("x", x);
+      fo.setAttribute("y", y);
+      fo.setAttribute("width", w);
+      fo.setAttribute("height", h);
+      newdiv = document.createElementNS("http://www.w3.org/1999/xhtml", "div");
+      server.setAttribute("style", "");
+      newdiv.appendChild(server);
+      fo.appendChild(newdiv);
+      paper.canvas.appendChild(fo);
+      rect = paper.rect(x, y, w, h);
+      rect.toFront();
+      rect.foreign = fo;
       shapes.push(rect);
       return rect_index[this.name] = rect;
     });
     dragger = function() {
-      var pair, _k, _len3, _ref;
       this.ox = this.attr("x");
       this.oy = this.attr("y");
-      _ref = this.pairs;
-      for (_k = 0, _len3 = _ref.length; _k < _len3; _k++) {
-        pair = _ref[_k];
-        pair.ox = pair.attr("x");
-        pair.oy = pair.attr("y");
+      if (this.foreign) {
+        this.foreign.ox = this.foreign.getAttribute("x");
+        return this.foreign.oy = this.foreign.getAttribute("y");
       }
-      return this.animate({
-        "fill-opacity": 0.2
-      }, 500);
     };
     move = function(dx, dy) {
-      var conn, pair, _k, _l, _len3, _len4, _ref;
+      var conn, _k, _len3;
       this.attr({
         x: this.ox + dx,
         y: this.oy + dy
       });
-      _ref = this.pairs;
-      for (_k = 0, _len3 = _ref.length; _k < _len3; _k++) {
-        pair = _ref[_k];
-        pair.attr({
-          x: pair.ox + dx,
-          y: pair.oy + dy
-        });
+      if (this.foreign) {
+        this.foreign.setAttribute("x", parseFloat(this.foreign.ox) + dx);
+        this.foreign.setAttribute("y", parseFloat(this.foreign.oy) + dy);
       }
-      for (_l = 0, _len4 = connections.length; _l < _len4; _l++) {
-        conn = connections[_l];
+      for (_k = 0, _len3 = connections.length; _k < _len3; _k++) {
+        conn = connections[_k];
         paper.connection(conn);
       }
       return paper.safari();
     };
-    up = function() {
-      return this.animate({
-        "fill-opacity": 0
-      }, 500);
-    };
+    up = function() {};
     for (_k = 0, _len3 = shapes.length; _k < _len3; _k++) {
       shape = shapes[_k];
       color = Raphael.getColor();
@@ -190,7 +167,8 @@
         fill: color,
         stroke: color,
         "fill-opacity": 0,
-        "stroke-width": 2,
+        "stroke-opacity": 0,
+        "stroke-width": 0,
         cursor: "move"
       });
       shape.drag(move, dragger, up);
