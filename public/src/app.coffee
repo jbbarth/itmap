@@ -36,14 +36,12 @@ for line in web_app
 
 $ ->
   paper = Raphael("map", 550, 450)
-  boxsize = {width: 153, minheight: 20, maxheight: 46}
   shapes = []
   rect_index = {}
   $.each servers, ->
     $(@toHtml()).insertBefore($("#map"))
     server = $("#srv_"+@name)[0]
-    height = $(server).outerHeight()+1
-    [x, y, w, h] = [@pos_x - canvasOffset, @pos_y - canvasOffset, boxsize.width + 50, height]
+    [x, y, w, h] = [@pos_x - canvasOffset, @pos_y - canvasOffset, $(server).outerWidth()+1, $(server).outerHeight()+1]
     fo = document.createElementNS(paper.svgns, "foreignObject")
     fo.setAttribute("x", x)
     fo.setAttribute("y", y)

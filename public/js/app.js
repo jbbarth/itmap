@@ -104,21 +104,15 @@
     }
   }
   $(function() {
-    var boxsize, color, connections, dragger, move, paper, rect_index, server, shape, shapes, target, up, _k, _l, _len3, _len4, _results;
+    var color, connections, dragger, move, paper, rect_index, server, shape, shapes, target, up, _k, _l, _len3, _len4, _results;
     paper = Raphael("map", 550, 450);
-    boxsize = {
-      width: 153,
-      minheight: 20,
-      maxheight: 46
-    };
     shapes = [];
     rect_index = {};
     $.each(servers, function() {
-      var fo, h, height, newdiv, rect, w, _ref;
+      var fo, h, newdiv, rect, w, _ref;
       $(this.toHtml()).insertBefore($("#map"));
       server = $("#srv_" + this.name)[0];
-      height = $(server).outerHeight() + 1;
-      _ref = [this.pos_x - canvasOffset, this.pos_y - canvasOffset, boxsize.width + 50, height], x = _ref[0], y = _ref[1], w = _ref[2], h = _ref[3];
+      _ref = [this.pos_x - canvasOffset, this.pos_y - canvasOffset, $(server).outerWidth() + 1, $(server).outerHeight() + 1], x = _ref[0], y = _ref[1], w = _ref[2], h = _ref[3];
       fo = document.createElementNS(paper.svgns, "foreignObject");
       fo.setAttribute("x", x);
       fo.setAttribute("y", y);
