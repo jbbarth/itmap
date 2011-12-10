@@ -18,7 +18,7 @@ heartbeats = [["lb-intra-01", "lb-intra-02"], ["lb-j2ee-01", "lb-j2ee-02"]]
 servers = []
 grid = new Grid {x_start: 100, x_step: 170, y_start: 30, y_step:110}
 canvas_xlimits = [0, 400]
-canvasOffset = 8
+canvasOffset = 7.5
 
 y = grid.options.y_start
 for line in web_app
@@ -82,7 +82,7 @@ $ ->
     @animate({"fill-opacity": 0}, 500)
   for shape in shapes
     color = Raphael.getColor()
-    shape.attr({fill: color, stroke: color, "fill-opacity": 0, "stroke-width": 2, cursor: "move"})
+    shape.attr({fill: color, stroke: color, "fill-opacity": 0, "stroke-width": 1, cursor: "move"})
     shape.drag(move, dragger, up)
   connections = []
   for server in servers
