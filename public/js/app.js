@@ -130,7 +130,6 @@
       fo.appendChild(newdiv);
       paper.canvas.appendChild(fo);
       rect = paper.rect(x, y, w, h);
-      rect.toFront();
       rect.foreign = fo;
       shapes.push(rect);
       return rect_index[this.name] = rect;

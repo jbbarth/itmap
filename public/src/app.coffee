@@ -55,7 +55,6 @@ $ ->
     fo.appendChild(newdiv)
     paper.canvas.appendChild fo
     rect = paper.rect(x, y, w, h)
-    rect.toFront()
     #move foreign object along with rect
     rect.foreign = fo
     #keep rect in the 'shapes' collection
