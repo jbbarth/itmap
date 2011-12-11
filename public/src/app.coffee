@@ -65,8 +65,8 @@ $ ->
     server.setAttribute("style","")
     newdiv.appendChild(server)
     fo.appendChild(newdiv)
-    paper.canvas.appendChild fo
     rect = paper.rect(x, y, w, h)
+    paper.canvas.appendChild fo
     #move foreign object along with rect
     rect.foreign = fo
     #keep rect in the 'shapes' collection

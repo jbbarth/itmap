@@ -131,8 +131,8 @@
       server.setAttribute("style", "");
       newdiv.appendChild(server);
       fo.appendChild(newdiv);
-      paper.canvas.appendChild(fo);
       rect = paper.rect(x, y, w, h);
+      paper.canvas.appendChild(fo);
       rect.foreign = fo;
       shapes.push(rect);
       return rect_index[this.name] = rect;
