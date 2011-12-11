@@ -3,25 +3,6 @@ var arrow = [ [ 0, 0 ], [ -10, -4 ], [ -10, 4] ]; //coords for an horizontal arr
 var bias = 5; //bias to calculate best handler for min dist
 var exagerate = 1; //exagerate box coords so that arrows are not under boxes
 
-// DRAG BOXES
-function prepareDraggableBoxes() {
-  $(".draggable").draggable({
-    //handle: '.handler',
-    handle: '.draggable h5',
-    drag: function(){updateCanvas($("#canvas"), $(".draggable"));},
-    stop: function(){updateCanvas($("#canvas"), $(".draggable"));}
-  });
-  $(".draggable").draggable({collide: 'block'});
-  $("div, h5").disableSelection();
-  $(".draggable").hover(
-    function (){ $(this).addClass("hover"); },
-    function (){ $(this).removeClass("hover"); }
-  );
-  $(".draggable").click(
-    function (){ $(this).toggleClass("selected"); }
-  )
-}
-
 //Draw hearbeats
 function drawHeartbeats(el1, el2) {
   var coords1 = getCornersCoords("#srv_"+el1);

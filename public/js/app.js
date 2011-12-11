@@ -104,6 +104,15 @@
     }
   }
   $(function() {
+    return $(".draggable").live("mouseenter", function() {
+      return $(this).addClass("hover");
+    }).live("mouseleave", function() {
+      return $(this).removeClass("hover");
+    }).live("click", function() {
+      return $(this).toggleClass("selected");
+    });
+  });
+  $(function() {
     var color, connections, dragger, move, paper, rect_index, server, shape, shapes, target, up, _k, _l, _len3, _len4, _results;
     paper = Raphael("map", 550, 450);
     shapes = [];

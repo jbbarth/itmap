@@ -34,6 +34,20 @@ for line in web_app
   y += grid.options.y_step
   y -= 50 if line[0].css_class.match(/server-lb/)
 
+#box behavior
+$ ->
+  #$(".draggable").draggable(
+  #  handle: '.draggable h5'
+  #  drag: () -> updateCanvas($("#canvas"), $(".draggable"))
+  #  stop: () -> updateCanvas($("#canvas"), $(".draggable"))
+  #)
+  #$(".draggable").draggable({collide: 'block'})
+  #$("div, h5").disableSelection();
+  $(".draggable").live("mouseenter", () -> $(@).addClass("hover"))
+                 .live("mouseleave", () -> $(@).removeClass("hover"))
+                 .live("click", () -> $(@).toggleClass("selected"))
+
+#draw canvas
 $ ->
   paper = Raphael("map", 550, 450)
   shapes = []
